@@ -45,6 +45,14 @@ router.put("/:id", async (req, res, next) => {
 });
 
 //read/lookup hotel
+router.get("/:id", async (req, res, next) => {
+  try {
+    const foundHotel = await Hotel.findById(req.params.id);
+    res.status(200).json(foundHotel);
+  } catch (error) {
+    next(error);
+  }
+});
 
 //delete hotel
 router.delete("/:id", async (req, res, next) => {
