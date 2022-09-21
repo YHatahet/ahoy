@@ -24,11 +24,14 @@ mongoose.connection.on("connected", () => {
   console.log("MongoDB server connected.");
 });
 
-const PORT = 3000;
+// middlewares
 
-const hotelRouter = require("./routes/hotels");
+app.use(express.json()); // parse JSON objects in body
 
-app.use("/hotels", hotelRouter);
+app.use("/auth", authRouter);
+app.use("/hotels", hotelsRouter);
+app.use("/users", usersRouter);
+app.use("/rooms", roomsRouter);
 
 // 3000 as fallback in case of missing PORT variable in .env file
 app.listen(Number(process.env.PORT) || 3000, () => {
