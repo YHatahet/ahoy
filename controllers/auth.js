@@ -1,5 +1,6 @@
 const User = require("../models/User");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 const { createError } = require("../utils/error");
 
 const register = async (req, res, next) => {
@@ -37,9 +38,21 @@ const login = async (req, res, next) => {
     );
     if (!isCorrectPass) return next(createError(400, "Incorrect password"));
 
+    // cookies will contain user id and isAdmin flag
+    const token = jwt.sign(
+      { id: user._id, isAdmin: user.isAdmin },
+      process.env.SECRET_KEY
+    );
+
     // Destructuring to remove the password and isAdmin flag
     const { isAdmin, password, ...remainingUserData } = user._doc;
-    res.status(200).send({ ...remainingUserData });
+
+    res
+      .cookie("access_token", token, {
+        httpOnly: true, // prevent client-side scripts from accessing data
+      })
+      .status(200)
+      .send({ ...remainingUserData });
   } catch (err) {
     next(err);
   }
