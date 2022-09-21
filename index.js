@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const dotenv = require("dotenv");
+const cookieParser = require("cookie-parser");
+require("dotenv").config();
 const hotelsRouter = require("./routes/hotels");
 const authRouter = require("./routes/auth");
 const roomsRouter = require("./routes/rooms");
@@ -18,7 +19,6 @@ const errorHandler = (err, req, res, next) => {
 };
 
 const app = express();
-dotenv.config();
 
 const connect = async () => {
   try {
@@ -37,6 +37,7 @@ mongoose.connection.on("connected", () => {
 
 // middlewares
 
+app.use(cookieParser());
 app.use(express.json()); // parse JSON objects in body
 
 app.use("/auth", authRouter);
