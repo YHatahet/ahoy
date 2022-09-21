@@ -15,7 +15,7 @@ router.post("/", async (req, res) => {
 
 
 //update hotel
-router.put("/:id", async (req, res) => {
+router.put("/:id", async (req, res, next) => {
   try {
     const updatedHotel = await Hotel.findByIdAndUpdate(
       req.params.id,
@@ -24,23 +24,23 @@ router.put("/:id", async (req, res) => {
     );
     res.status(200).json(updatedHotel);
   } catch (error) {
-    res.status(500).json(error);
+    next(error);
   }
 });
 
 //read/lookup hotel
 
 //delete hotel
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", async (req, res, next) => {
   try {
     const deletedHotel = await Hotel.findByIdAndDelete(req.params.id);
     res
       .status(200)
       .json(
-        `Hotel ${deletedHotel.name} with id ${deletedHotel._id} has been deleted`
+        `Hotel "${deletedHotel.name}" with id ${deletedHotel._id} has been deleted`
       );
   } catch (error) {
-    res.status(500).json(error);
+    next(error);
   }
 });
 
