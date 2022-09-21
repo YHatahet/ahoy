@@ -5,8 +5,8 @@ const createHotel = async (req, res, next) => {
   try {
     const savedHotel = await newHotel.save();
     res.status(200).json(savedHotel);
-  } catch (error) {
-    next(error);
+  } catch (err) {
+    next(err);
   }
 };
 
@@ -21,8 +21,8 @@ const getHotels = async (req, res, next) => {
       .limit(limit);
 
     res.status(200).json(foundHotels);
-  } catch (error) {
-    next(error);
+  } catch (err) {
+    next(err);
   }
 };
 
@@ -34,8 +34,8 @@ const updateHotel = async (req, res, next) => {
       { new: true } // return document after update
     );
     res.status(200).json(updatedHotel);
-  } catch (error) {
-    next(error);
+  } catch (err) {
+    next(err);
   }
 };
 
@@ -43,8 +43,8 @@ const getHotel = async (req, res, next) => {
   try {
     const foundHotel = await Hotel.findById(req.params.id);
     res.status(200).json(foundHotel);
-  } catch (error) {
-    next(error);
+  } catch (err) {
+    next(err);
   }
 };
 
@@ -56,8 +56,8 @@ const deleteHotel = async (req, res, next) => {
       .json(
         `Hotel "${deletedHotel.name}" with id ${deletedHotel._id} has been deleted`
       );
-  } catch (error) {
-    next(error);
+  } catch (err) {
+    next(err);
   }
 };
 
@@ -68,8 +68,8 @@ const getTopRatedHotels = async (req, res, next) => {
     const topRatedHotels = await Hotel.find().sort({ rating: 1 }).limit(amount);
 
     res.status(200).json(topRatedHotels);
-  } catch (error) {
-    next(error);
+  } catch (err) {
+    next(err);
   }
 };
 
