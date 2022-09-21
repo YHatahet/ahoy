@@ -16,4 +16,8 @@ const hotelRouter = require("./routes/hotels");
 
 app.use("/hotels", hotelRouter);
 
-app.listen(PORT);
+// 3000 as fallback in case of missing PORT variable in .env file
+app.listen(Number(process.env.PORT) || 3000, () => {
+  connect();
+  console.log("Connected to backend");
+});
