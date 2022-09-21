@@ -13,6 +13,22 @@ router.post("/", async (req, res, next) => {
   }
 });
 
+//list all hotels, paginated
+router.get("/all/:page/:limit", async (req, res, next) => {
+  // defaults as page 1, limit of 10 per page
+  const page = parseInt(req.params.page) || 0;
+  const limit = parseInt(req.params.limit) || 10;
+
+  try {
+    const foundHotels = await Hotel.find()
+      .skip(page * limit)
+      .limit(limit);
+
+    res.status(200).json(foundHotels);
+  } catch (error) {
+    next(error);
+  }
+});
 
 //update hotel
 router.put("/:id", async (req, res, next) => {
