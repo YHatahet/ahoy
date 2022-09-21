@@ -8,7 +8,21 @@ const usersRouter = require("./routes/users");
 
 const app = express();
 dotenv.config();
-const app = express();
+
+const connect = async () => {
+  try {
+    await mongoose.connect(process.env.MONGOURL);
+  } catch (error) {
+    throw new Error(`Mongoose: ${error}`);
+  }
+};
+
+mongoose.connection.on("disconnected", () => {
+  console.log("MongoDB server disconnected.");
+});
+mongoose.connection.on("connected", () => {
+  console.log("MongoDB server connected.");
+});
 
 const PORT = 3000;
 
