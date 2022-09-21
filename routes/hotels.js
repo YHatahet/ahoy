@@ -30,4 +30,19 @@ router.put("/:id", async (req, res) => {
 
 //read/lookup hotel
 
+//delete hotel
+router.delete("/:id", async (req, res) => {
+  try {
+    const deletedHotel = await Hotel.findByIdAndDelete(req.params.id);
+    res
+      .status(200)
+      .json(
+        `Hotel ${deletedHotel.name} with id ${deletedHotel._id} has been deleted`
+      );
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
+
+
 module.exports = router;
