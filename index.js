@@ -2,11 +2,9 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
 require("dotenv").config();
-const hotelsRouter = require("./routes/hotels");
-const authRouter = require("./routes/auth");
-const roomsRouter = require("./routes/rooms");
-const usersRouter = require("./routes/users");
+const routers = require("./routes/index");
 
+// Middleware for handling errors by providing a lot of useful data.
 const errorHandler = (err, req, res, next) => {
   const errorStatus = err.status || 500;
   const errorMessage = err.message || "Something went wrong.";
@@ -39,12 +37,7 @@ mongoose.connection.on("connected", () => {
 
 app.use(cookieParser());
 app.use(express.json()); // parse JSON objects in body
-
-app.use("/auth", authRouter);
-app.use("/hotels", hotelsRouter);
-app.use("/users", usersRouter);
-app.use("/rooms", roomsRouter);
-
+for (const { path, router } of routers) app.use(path, router);
 app.use(errorHandler); //general error handling middleware
 
 // 3000 as fallback in case of missing PORT variable in .env file
