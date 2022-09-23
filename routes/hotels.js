@@ -15,14 +15,14 @@ router
   .post("/", verifyAdmin, createHotel)
   //list all hotels, paginated
   .get("/all/:page/:limit", getHotels)
-  //update hotel
-  .put("/:id", verifyAdmin, updateHotel)
   //read/lookup hotel
   .get("/:id", getHotel)
-  //delete hotel
-  .delete("/:id", verifyAdmin, deleteHotel)
   //get top rated hotels
-  .get("/topRated/:amount", getTopRatedHotels);
+  .get("/topRated/:amount", getTopRatedHotels)
+  //update hotel
+  .put("/:id", verifyAdmin, updateHotel)
+  //delete hotel
+  .delete("/:id", verifyAdmin, deleteHotel);
 
 
 
