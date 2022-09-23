@@ -1,4 +1,5 @@
 const express = require("express");
+const { verifyAdmin } = require("../utils/verification");
 const router = express.Router();
 const {
   createRoom,
@@ -6,7 +7,7 @@ const {
   getRoom,
   getRooms,
   deleteRoom,
-} = require("../controllers/user");
+} = require("../controllers/room");
 
 router
   //create room
