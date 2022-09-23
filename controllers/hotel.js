@@ -1,8 +1,8 @@
 const Hotel = require("../models/Hotel");
 
 const createHotel = async (req, res, next) => {
-  const newHotel = new Hotel(req.body);
   try {
+    const newHotel = new Hotel(req.body);
     const savedHotel = await newHotel.save();
     res.status(200).json(savedHotel);
   } catch (err) {
@@ -11,11 +11,11 @@ const createHotel = async (req, res, next) => {
 };
 
 const getHotels = async (req, res, next) => {
-  // defaults as page 0, limit of 10 per page
-  const page = parseInt(req.params.page) || 0;
-  const limit = parseInt(req.params.limit) || 10;
-
   try {
+    // defaults as page 0, limit of 10 per page
+    const page = parseInt(req.params.page) || 0;
+    const limit = parseInt(req.params.limit) || 10;
+
     const foundHotels = await Hotel.find()
       .skip(page * limit)
       .limit(limit);
