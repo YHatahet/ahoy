@@ -18,6 +18,6 @@ router
   //read/lookup room
   .get("/", getRooms)
   //delete room
-  .delete("/:id", verifyAdmin, deleteRoom);
+  .delete("/:hotelid/:roomid", verifyAdmin, deleteRoom);
 
 module.exports = router;
