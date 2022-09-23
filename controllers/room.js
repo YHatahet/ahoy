@@ -2,15 +2,12 @@ const Room = require("../models/Room");
 const Hotel = require("../models/Hotel");
 
 const createRoom = async (req, res, next) => {
-  const hotelId = req.params.hotelid;
-  const newRoom = new Room(req.body);
-
   try {
+    const hotelId = req.params.hotelid;
+    const newRoom = new Room(req.body);
     const savedRoom = await newRoom.save();
     // find the hotel matching the id, then append the rooms array with the new room id
-    await Hotel.findByIdAndUpdate(hotelId, {
-      $push: { rooms: savedRoom.id },
-    });
+    await Hotel.findByIdAndUpdate(hotelId, { $push: { rooms: savedRoom.id } });
     req.status(200).json(savedRoom);
   } catch (err) {
     next(err);
@@ -27,11 +24,10 @@ const getRoom = async (req, res, next) => {
 };
 
 const getRooms = async (req, res, next) => {
-  // defaults as page 0, limit of 10 per page
-  const page = parseInt(req.params.page) || 0;
-  const limit = parseInt(req.params.limit) || 10;
-
   try {
+    // defaults as page 0, limit of 10 per page
+    const page = parseInt(req.params.page) || 0;
+    const limit = parseInt(req.params.limit) || 10;
     const foundRooms = await Room.find()
       .skip(page * limit)
       .limit(limit);
