@@ -11,7 +11,7 @@ const {
 
 router
   //create room
-  .post("/hotelid", verifyAdmin, createRoom)
+  .post("/:hotelid", verifyAdmin, createRoom)
   //update room
   .put("/:id", verifyAdmin, updateRoom)
   //read/lookup room

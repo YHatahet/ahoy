@@ -53,7 +53,7 @@ const updateRoom = async (req, res, next) => {
 
 const deleteRoom = async (req, res, next) => {
   try {
-    const { hotelId, roomId } = req.params.hotelid;
+    const { hotelId, roomId } = req.params;
     // find the hotel matching the id, then remove the room id from the rooms array
     await Hotel.findByIdAndUpdate(hotelId, { $pull: { rooms: roomId } });
     const deletedRoom = await Room.findByIdAndDelete(req.params.id);
