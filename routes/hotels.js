@@ -9,23 +9,19 @@ const {
   getTopRatedHotels,
 } = require("../controllers/hotel");
 
-//create hotel
-router.post("/", createHotel);
-
-//list all hotels, paginated
-router.get("/all/:page/:limit", getHotels);
-
-//update hotel
-router.put("/:id", updateHotel);
-
-//read/lookup hotel
-router.get("/:id", getHotel);
-
-//delete hotel
-router.delete("/:id", deleteHotel);
-
-//get top rated hotels
-router.get("/topRated/:amount", getTopRatedHotels);
+router
+  //create hotel
+  .post("/", createHotel)
+  //list all hotels, paginated
+  .get("/all/:page/:limit", getHotels)
+  //update hotel
+  .put("/:id", updateHotel)
+  //read/lookup hotel
+  .get("/:id", getHotel)
+  //delete hotel
+  .delete("/:id", deleteHotel)
+  //get top rated hotels
+  .get("/topRated/:amount", getTopRatedHotels);
 
 
 

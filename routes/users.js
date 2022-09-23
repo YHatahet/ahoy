@@ -7,16 +7,14 @@ const {
   deleteUser,
 } = require("../controllers/user");
 
-//list all users, paginated
-router.get("/all/:page/:limit", getUsers);
-
-//read/lookup user
-router.get("/:id", getUser);
-
-//update user
-router.put("/:id", updateUser);
-
-//delete user
-router.delete("/:id", deleteUser);
+router
+  //list all users, paginated
+  .get("/all/:page/:limit", getUsers)
+  //read/lookup user
+  .get("/:id", getUser)
+  //update user
+  .put("/:id", updateUser)
+  //delete user
+  .delete("/:id", deleteUser);
 
 module.exports = router;
