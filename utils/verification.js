@@ -15,7 +15,7 @@ const verifyToken = (req, res, next) => {
 };
 
 const verifyUser = (req, res, next) => {
-  verifyToken(req, res, () => {
+  verifyToken(req, res, next, () => {
     // if admin or user is performing action on own account, allow
     if (req.user.isAdmin || req.params.id === req.user.id) next();
     return next(createError(403, "User is not authorized for this action"));
@@ -23,7 +23,7 @@ const verifyUser = (req, res, next) => {
 };
 
 const verifyAdmin = (req, res, next) => {
-  verifyToken(req, res, () => {
+  verifyToken(req, res, next, () => {
     // if admin allow
     if (req.user.isAdmin) next();
     return next(createError(403, "User is not authorized for this action"));
