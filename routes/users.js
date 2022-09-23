@@ -1,4 +1,5 @@
 const express = require("express");
+const { verifyUser, verifyAdmin } = require("../utils/verification");
 const router = express.Router();
 const {
   getUser,
@@ -9,12 +10,12 @@ const {
 
 router
   //list all users, paginated
-  .get("/all/:page/:limit", getUsers)
+  .get("/all/:page/:limit", verifyAdmin, getUsers)
   //read/lookup user
-  .get("/:id", getUser)
+  .get("/:id", verifyUser, getUser)
   //update user
-  .put("/:id", updateUser)
+  .put("/:id", verifyUser, updateUser)
   //delete user
-  .delete("/:id", deleteUser);
+  .delete("/:id", verifyUser, deleteUser);
 
 module.exports = router;
