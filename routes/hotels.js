@@ -1,5 +1,9 @@
 const express = require("express");
-const { verifyAdmin } = require("../utils/verification");
+const {
+  verifyAdmin,
+  verifyUser,
+  verifyHotelOwner,
+} = require("../utils/verification");
 const router = express.Router();
 const {
   createHotel,
@@ -20,9 +24,9 @@ router
   //get top rated hotels
   .get("/topRated/:amount", getTopRatedHotels)
   //update hotel
-  .put("/:id", verifyAdmin, updateHotel)
+  .put("/:id", verifyHotelOwner, updateHotel)
   //delete hotel
-  .delete("/:id", verifyAdmin, deleteHotel);
+  .delete("/:id", verifyHotelOwner, deleteHotel);
 
 
 
