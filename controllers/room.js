@@ -75,28 +75,24 @@ const bookRoom = async (req, res, next) => {
 
     const { roomNumber, startDate, endDate, numOfTenants } = req.body;
 
-    if (numOfTenants > roomToBook.maxTenants) {
-      next(
+    if (numOfTenants > roomToBook.maxTenants)
+      return next(
         createError(
           400,
           "Number of tenants exceeds the maximum allowed for this room."
         )
       );
-      return;
-    }
 
     const startDateVal = new Date(startDate).valueOf();
     const endDateVal = new Date(endDate).valueOf();
 
-    if (startDateVal > endDateVal) {
-      next(
+    if (startDateVal > endDateVal)
+      return next(
         createError(
           400,
           "Start booking time cannot be greater than end booking time."
         )
       );
-      return;
-    }
 
     // iterate over rooms and see if any thing prevents booking
     for (const room of roomToBook.rooms) {
@@ -113,8 +109,9 @@ const bookRoom = async (req, res, next) => {
 
         if (!isConflicting) continue;
 
-        next(createError(400, "No vacancies for this room at the given time"));
-        return;
+        return next(
+          createError(400, "No vacancies for this room at the given time")
+        );
       }
 
       // if no time conflicts found
@@ -122,8 +119,7 @@ const bookRoom = async (req, res, next) => {
 
       room.occupiedDates.push([startDate, endDate]);
       roomToBook.save();
-      res.status(200).json(roomToBook);
-      return;
+      return res.status(200).json(roomToBook);
     }
 
     next(createError(400, "No room number found with the selected room type"));
