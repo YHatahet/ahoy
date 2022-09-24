@@ -1,5 +1,5 @@
 const express = require("express");
-const { verifyAdmin, verifyUser } = require("../utils/verification");
+const {  verifyHotelOwner } = require("../utils/verification");
 const router = express.Router();
 const {
   createRoom,
@@ -12,16 +12,16 @@ const {
 
 router
   //create room
-  .post("/create/:hotelid", verifyAdmin, createRoom)
+  .post("/create/:hotelid", verifyHotelOwner, createRoom)
   //update room
-  .put("/:id", verifyAdmin, updateRoom)
+  .put("/:hotelid/:roomid", verifyHotelOwner, updateRoom)
   //read/lookup room
   .get("/:id", getRoom)
   //read/lookup room
   .get("/all/:page/:limit", getRooms)
   //book room
-  .post("/book/:roomid", verifyUser, bookRoom)
+  .post("/book/:roomid", bookRoom)
   //delete room
-  .delete("/:hotelid/:roomid", verifyAdmin, deleteRoom);
+  .delete("/:hotelid/:roomid", verifyHotelOwner, deleteRoom);
 
 module.exports = router;
