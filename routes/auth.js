@@ -4,8 +4,8 @@ const { register, login } = require("../controllers/auth");
 
 router
   // register users
-  .get("/register", register)
+  .post("/register", register)
   // login user
-  .get("/login", login);
+  .post("/login", login);
 
 module.exports = router;
