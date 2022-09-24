@@ -23,10 +23,23 @@ const verifyUser = (req, res, next) => {
 };
 
 const verifyAdmin = (req, res, next) => {
-  verifyToken(req, res, next, () => {
+  verifyToken(req, res, () => {
     // if admin allow
-    if (req.user.isAdmin) next();
-    return next(createError(403, "User does not have admin privileges"));
+    if (req?.user?.isAdmin) next();
+    else next(createError(403, "User does not have admin privileges"));
+  });
+};
+
+const verifyHotelOwner = (req, res, next) => {
+  verifyToken(req, res, () => {
+    Hotel.findById(req.params.id).then((hotel) => {
+      // if admin allow
+      if (req?.user?.id == hotel?._owner.toString()) next();
+      else
+        next(
+          createError(403, "User does not have privileges to edit this hotel")
+        );
+    });
   });
 };
 
@@ -34,4 +47,5 @@ module.exports = {
   verifyToken,
   verifyUser,
   verifyAdmin,
+  verifyHotelOwner,
 };
