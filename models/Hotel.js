@@ -1,7 +1,8 @@
 const mongoose = require("mongoose");
 
 const HotelSchema = new mongoose.Schema({
-  name: { type: String, required: true },
+  name: { type: String, required: true, unique: true },
+  _owner: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true }, // foreign key
   rating: { type: Number, min: 0, max: 5, default: 0 },
   numOfReviews: { type: Number, default: 0 },
   description: { type: String, required: true },

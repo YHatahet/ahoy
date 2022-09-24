@@ -2,6 +2,7 @@ const Hotel = require("../models/Hotel");
 
 const createHotel = async (req, res, next) => {
   try {
+    req.body._owner = req.user.id;
     const newHotel = new Hotel(req.body);
     const savedHotel = await newHotel.save();
     res.status(200).json(savedHotel);
