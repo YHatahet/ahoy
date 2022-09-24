@@ -1,5 +1,6 @@
 const Room = require("../models/Room");
 const Hotel = require("../models/Hotel");
+const { createError } = require("../utils/error");
 
 const createRoom = async (req, res, next) => {
   try {
@@ -68,7 +69,71 @@ const deleteRoom = async (req, res, next) => {
   }
 };
 
+const bookRoom = async (req, res, next) => {
+  try {
+    const roomToBook = await Room.findById(req.params.roomid);
+
+    const { roomNumber, startDate, endDate, numOfTenants } = req.body;
+
+    if (numOfTenants > roomToBook.maxTenants) {
+      next(
+        createError(
+          400,
+          "Number of tenants exceeds the maximum allowed for this room."
+        )
+      );
+      return;
+    }
+
+    const startDateVal = new Date(startDate).valueOf();
+    const endDateVal = new Date(endDate).valueOf();
+
+    if (startDateVal > endDateVal) {
+      next(
+        createError(
+          400,
+          "Start booking time cannot be greater than end booking time."
+        )
+      );
+      return;
+    }
+
+    // iterate over rooms and see if any thing prevents booking
+    for (const room of roomToBook.rooms) {
+      if (room.number !== roomNumber) continue; // next room
+
+      // Check for time conflicts
+      for (const [startOccDate, endOccDate] of room.occupiedDates) {
+        const startOccDateVal = new Date(startOccDate).valueOf();
+        const endOccDateVal = new Date(endOccDate).valueOf();
+
+        const isConflicting =
+          (startDateVal <= startOccDateVal && endDateVal >= startOccDateVal) ||
+          (startDateVal <= endOccDateVal && endDateVal >= endOccDateVal);
+
+        if (!isConflicting) continue;
+
+        next(createError(400, "No vacancies for this room at the given time"));
+        return;
+      }
+
+      // if no time conflicts found
+      // await Room.findByIdAndUpdate(hotelId, { $push: { rooms: savedRoom.id } });
+
+      room.occupiedDates.push([startDate, endDate]);
+      roomToBook.save();
+      res.status(200).json(roomToBook);
+      return;
+    }
+
+    next(createError(400, "No room number found with the selected room type"));
+  } catch (err) {
+    next(err);
+  }
+};
+
 module.exports = {
+  bookRoom,
   createRoom,
   getRoom,
   getRooms,

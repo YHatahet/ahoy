@@ -1,5 +1,5 @@
 const express = require("express");
-const { verifyAdmin } = require("../utils/verification");
+const { verifyAdmin, verifyUser } = require("../utils/verification");
 const router = express.Router();
 const {
   createRoom,
@@ -7,6 +7,7 @@ const {
   getRoom,
   getRooms,
   deleteRoom,
+  bookRoom,
 } = require("../controllers/room");
 
 router
@@ -18,6 +19,8 @@ router
   .get("/:id", getRoom)
   //read/lookup room
   .get("/all/:page/:limit", getRooms)
+  //book room
+  .post("/book/:roomid", verifyUser, bookRoom)
   //delete room
   .delete("/:hotelid/:roomid", verifyAdmin, deleteRoom);
 
