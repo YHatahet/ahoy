@@ -55,14 +55,14 @@ const updateRoom = async (req, res, next) => {
 
 const deleteRoom = async (req, res, next) => {
   try {
-    const { hotelId, roomId } = req.params;
+    const { hotelid, roomid } = req.params;
     // find the hotel matching the id, then remove the room id from the rooms array
-    await Hotel.findByIdAndUpdate(hotelId, { $pull: { rooms: roomId } });
-    const deletedRoom = await Room.findByIdAndDelete(req.params.id);
+    await Hotel.findByIdAndUpdate(hotelid, { $pull: { rooms: roomid } });
+    const deletedRoom = await Room.findByIdAndDelete(roomid);
     res
       .status(200)
       .json(
-        `Room "${deletedRoom.name}" with id ${deletedRoom._id} has been deleted`
+        `Room "${deletedRoom?.title}" with id ${deletedRoom?._id} has been deleted`
       );
   } catch (err) {
     next(err);
