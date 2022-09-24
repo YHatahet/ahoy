@@ -26,7 +26,7 @@ const verifyAdmin = (req, res, next) => {
   verifyToken(req, res, next, () => {
     // if admin allow
     if (req.user.isAdmin) next();
-    return next(createError(403, "User is not authorized for this action"));
+    return next(createError(403, "User does not have admin privileges"));
   });
 };
 
