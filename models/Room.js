@@ -16,10 +16,10 @@ const RoomSchema = new mongoose.Schema(
       type: [
         {
           number: { type: Number },
-          occupiedDates: { type: [Date], default: [] },
+          occupiedDates: { type: [[Date, Date]], default: [] },
         },
       ], // each room will have a number, and arr of days it's reserved
-      default: [],
+      required: true,
     },
   },
   { timestamps: true } //adds createdAt and updatedAt
