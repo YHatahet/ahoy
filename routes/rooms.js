@@ -1,5 +1,5 @@
 const express = require("express");
-const {  verifyHotelOwner } = require("../utils/verification");
+const { verifyHotelOwner } = require("../utils/verification");
 const router = express.Router();
 const {
   createRoom,

@@ -25,7 +25,7 @@ router
   //delete hotel
   .delete("/:id", verifyHotelOwner, deleteHotel)
   //add review to hotel
-  .post("/review/:id", addRating);
+  .post("/rate/:id", addRating);
 
 
 
