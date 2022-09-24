@@ -1,4 +1,5 @@
 const jwt = require("jsonwebtoken");
+const Hotel = require("../models/Hotel");
 const { createError } = require("./error");
 
 const verifyToken = (req, res, next) => {
@@ -14,6 +15,7 @@ const verifyToken = (req, res, next) => {
   });
 };
 
+// For different users to perform actions on their accounts
 const verifyUser = (req, res, next) => {
   verifyToken(req, res, () => {
     // if admin or user is performing action on own account, allow
@@ -22,6 +24,7 @@ const verifyUser = (req, res, next) => {
   });
 };
 
+// For server administrators
 const verifyAdmin = (req, res, next) => {
   verifyToken(req, res, () => {
     // if admin allow
@@ -30,10 +33,12 @@ const verifyAdmin = (req, res, next) => {
   });
 };
 
+// for hotel owners to perform actions on their hotels
 const verifyHotelOwner = (req, res, next) => {
   verifyToken(req, res, () => {
+    if (req?.user?.isAdmin) return next(); // avoid DB lookup if admin
     Hotel.findById(req.params.id).then((hotel) => {
-      // if admin allow
+      // if hotel owner, allow
       if (req?.user?.id == hotel?._owner.toString()) next();
       else
         next(
