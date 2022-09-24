@@ -74,6 +74,27 @@ const getTopRatedHotels = async (req, res, next) => {
   }
 };
 
+const addRating = async (req, res, next) => {
+  try {
+    const hotelId = req.params.id;
+    const fetchedHotel = await Hotel.findById(hotelId);
+    const { numOfReviews: numOfRatings, rating } = fetchedHotel;
+
+    const newRating =
+      (numOfRatings * rating + req?.body?.rating) / (numOfRatings + 1);
+
+    const updatedHotel = await Hotel.findByIdAndUpdate(
+      hotelId,
+      { $set: { rating: newRating, numOfReviews: numOfRatings + 1 } },
+      { new: true }
+    );
+
+    res.status(200).json(updatedHotel);
+  } catch (err) {
+    next(err);
+  }
+};
+
 module.exports = {
   createHotel,
   deleteHotel,
@@ -81,4 +102,5 @@ module.exports = {
   getHotels,
   getTopRatedHotels,
   updateHotel,
+  addRating,
 };
