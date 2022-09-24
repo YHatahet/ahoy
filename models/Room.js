@@ -15,7 +15,7 @@ const RoomSchema = new mongoose.Schema(
     rooms: {
       type: [
         {
-          number: { type: Number, unique: true },
+          number: { type: Number },
           occupiedDates: { type: [Date], default: [] },
         },
       ], // each room will have a number, and arr of days it's reserved
