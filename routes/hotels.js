@@ -12,7 +12,7 @@ const {
 
 router
   //create hotel
-  .post("/", verifyAdmin, createHotel)
+  .post("/create", verifyAdmin, createHotel)
   //list all hotels, paginated
   .get("/all/:page/:limit", getHotels)
   //read/lookup hotel

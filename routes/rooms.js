@@ -11,13 +11,13 @@ const {
 
 router
   //create room
-  .post("/:hotelid", verifyAdmin, createRoom)
+  .post("/create/:hotelid", verifyAdmin, createRoom)
   //update room
   .put("/:id", verifyAdmin, updateRoom)
   //read/lookup room
   .get("/:id", getRoom)
   //read/lookup room
-  .get("/", getRooms)
+  .get("/all/:page/:limit", getRooms)
   //delete room
   .delete("/:hotelid/:roomid", verifyAdmin, deleteRoom);
 
