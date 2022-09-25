@@ -44,6 +44,18 @@ const getRooms = async (req, res, next) => {
   }
 };
 
+const getRoomsInHotel = async (req, res, next) => {
+  try {
+    const hotelId = req.params.id;
+    const foundHotel = await Hotel.findById(hotelId);
+    if (!foundHotel) return next(createError(404, "Room not found"));
+    const roomsOfHotel = await Room.find({ $match: { _hotel: hotelId } });
+    res.status(200).json(roomsOfHotel);
+  } catch (err) {
+    next(err);
+  }
+};
+
 const updateRoom = async (req, res, next) => {
   try {
     const updatedRoom = await Room.findByIdAndUpdate(
@@ -137,4 +149,5 @@ module.exports = {
   getRooms,
   updateRoom,
   deleteRoom,
+  getRoomsInHotel,
 };

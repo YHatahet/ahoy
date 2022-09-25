@@ -6,6 +6,7 @@ const {
   updateRoom,
   getRoom,
   getRooms,
+  getRoomsInHotel,
   deleteRoom,
   bookRoom,
 } = require("../controllers/room");
@@ -13,15 +14,17 @@ const {
 router
   //create room, id is hotel id
   .post("/create/:id", verifyHotelOwner, createRoom)
-  //update room, id is hotel id
-  .put("/:id/:roomid", verifyHotelOwner, updateRoom)
-  //read/lookup room, id is hotel id
+  //read/lookup room, id is room id
   .get("/:id", getRoom)
   //read/lookup room
   .get("/all/:page/:limit", getRooms)
-  //book room, id is room id
-  .post("/book/:id", verifyLoggedIn, bookRoom)
+  //read/lookup room, id is hotel id
+  .get("/hotel/:id", getRoomsInHotel)
+  //update room, id is room id
+  .put("/:id", verifyHotelOwner, updateRoom)
   //delete room, id is room id
-  .delete("/:id", verifyHotelOwner, deleteRoom);
+  .delete("/:id", verifyHotelOwner, deleteRoom)
+  //book room, id is room id
+  .post("/book/:id", verifyLoggedIn, bookRoom);
 
 module.exports = router;
