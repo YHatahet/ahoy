@@ -9,7 +9,6 @@ const HotelSchema = new mongoose.Schema({
   address: { type: String, required: true },
   city: { type: String, required: true },
   distanceFromCenter: { type: Number, required: true },
-  rooms: { type: [String] }, // array of room object ids
   pictures: { type: [String] },
   featured: { type: Boolean, default: false },
 });
