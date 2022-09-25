@@ -5,17 +5,20 @@ const {
   createReview,
   getReview,
   getReviews,
+  getHotelReviews,
   updateReview,
   deleteReview,
 } = require("../controllers/review");
 
 router
   //create review, id is hotel id
-  .post("/create/:id", verifyLoggedIn, createReview)
+  .post("/:id", verifyLoggedIn, createReview)
   //list all reviews, paginated, sorted
   .get("/all/:page/:limit/:sortAsc", getReviews)
   //read/lookup review, id is review id
   .get("/:id", getReview)
+  //get reviews for given hotel, id is hotel id
+  .get("/hotel/:id", getHotelReviews)
   //update review, id is review id
   .put("/:id", verifyReviewOwner, updateReview)
   //delete review, id is review id
