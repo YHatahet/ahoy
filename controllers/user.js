@@ -1,7 +1,20 @@
 const User = require("../models/User");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 const updateUser = async (req, res, next) => {
   try {
+    // no one is allowed to change admin status except for admins
+    if (req?.user?.isAdmin === false) delete req?.body?.isAdmin;
+
+    // if user is changing the password, hash it
+    // The user should login again to update password
+    if (req?.body?.password) {
+      const salt = bcrypt.genSaltSync();
+      const hashedPass = bcrypt.hashSync(req?.body?.password, salt);
+      req.body.password = hashedPass;
+    }
+
     const updatedUser = await User.findByIdAndUpdate(
       req.params.id,
       { $set: req.body },
