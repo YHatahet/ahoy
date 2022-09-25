@@ -5,7 +5,11 @@ const { createError } = require("../utils/error");
 const createRoom = async (req, res, next) => {
   try {
     const hotelId = req.params.id;
-    req.body._hotel = hotelId;
+    const hotelToUpdate = await Hotel.findById(hotelId);
+
+    if (!hotelToUpdate)
+      return next(createError(404, "Hotel with given ID is not found"));
+
     const newRoom = new Room(req.body);
     const savedRoom = await newRoom.save();
     // find the hotel matching the id, then append the rooms array with the new room id
