@@ -57,7 +57,7 @@ const deleteUser = async (req, res, next) => {
     res
       .status(200)
       .json(
-        `User "${deletedUser.name}" with id ${deletedUser._id} has been deleted`
+        `User "${deletedUser.username}" with id ${deletedUser._id} has been deleted`
       );
   } catch (err) {
     next(err);
