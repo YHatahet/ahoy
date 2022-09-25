@@ -57,10 +57,26 @@ const verifyHotelOwner = (req, res, next) => {
   });
 };
 
+// for review owners to perform actions on their reviews
+const verifyReviewOwner = (req, res, next) => {
+  verifyToken(req, res, () => {
+    if (req?.user?.isAdmin) return next(); // avoid DB lookup if admin
+    Review.findById(req.params.id).then((review) => {
+      // if review owner, allow
+      if (req?.user?.id == review?._owner.toString()) next();
+      else
+        next(
+          createError(403, "User does not have privileges to edit this review")
+        );
+    });
+  });
+};
+
 module.exports = {
   verifyToken,
   verifyUser,
   verifyAdmin,
   verifyHotelOwner,
+  verifyReviewOwner,
   verifyLoggedIn,
 };
