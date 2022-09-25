@@ -3,4 +3,5 @@ module.exports = [
   { path: "/auth", router: require("./auth") },
   { path: "/rooms", router: require("./rooms") },
   { path: "/users", router: require("./users") },
+  { path: "/review", router: require("./review") },
 ];
