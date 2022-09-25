@@ -47,6 +47,7 @@ const verifyHotelOwner = (req, res, next) => {
   verifyToken(req, res, () => {
     if (req?.user?.isAdmin) return next(); // avoid DB lookup if admin
     Hotel.findById(req.params.id).then((hotel) => {
+      if (!hotel) return next(createError(404, "Hotel not found"));
       // if hotel owner, allow
       if (req?.user?.id == hotel?._owner.toString()) next();
       else
