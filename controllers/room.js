@@ -10,6 +10,7 @@ const createRoom = async (req, res, next) => {
     if (!hotelToUpdate)
       return next(createError(404, "Hotel with given ID is not found"));
 
+    req.body._hotel = hotelId;
     const newRoom = new Room(req.body);
     const savedRoom = await newRoom.save();
     res.status(200).json(savedRoom);
@@ -21,6 +22,7 @@ const createRoom = async (req, res, next) => {
 const getRoom = async (req, res, next) => {
   try {
     const foundRoom = await Room.findById(req.params.id);
+    if (!foundRoom) return next(createError(404, "Room not found"));
     res.status(200).json(foundRoom);
   } catch (err) {
     next(err);
@@ -45,10 +47,11 @@ const getRooms = async (req, res, next) => {
 const updateRoom = async (req, res, next) => {
   try {
     const updatedRoom = await Room.findByIdAndUpdate(
-      req.params.roomid,
+      req.params.id,
       { $set: req.body },
       { new: true } // return document after update
     );
+    if (!updatedRoom) return next(createError(404, "Room not found"));
     res.status(200).json(updatedRoom);
   } catch (err) {
     next(err);
@@ -58,6 +61,7 @@ const updateRoom = async (req, res, next) => {
 const deleteRoom = async (req, res, next) => {
   try {
     const deletedRoom = await Room.findByIdAndDelete(req.params.id);
+    if (!deletedRoom) return next(createError(404, "Room not found"));
     res
       .status(200)
       .json(
@@ -71,6 +75,7 @@ const deleteRoom = async (req, res, next) => {
 const bookRoom = async (req, res, next) => {
   try {
     const roomToBook = await Room.findById(req.params.id);
+    if (!roomToBook) return next(createError(404, "Room not found"));
 
     const { roomNumber, startDate, endDate, numOfTenants } = req.body;
 
