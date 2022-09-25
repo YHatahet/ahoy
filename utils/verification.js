@@ -15,6 +15,15 @@ const verifyToken = (req, res, next) => {
   });
 };
 
+// Check if someone is logged in
+const verifyLoggedIn = (req, res, next) => {
+  verifyToken(req, res, () => {
+    // if admin or user is performing action on own account, allow
+    if (req?.user?.id) next();
+    else next(createError(403, "Log in to continue"));
+  });
+};
+
 // For different users to perform actions on their accounts
 const verifyUser = (req, res, next) => {
   verifyToken(req, res, () => {
@@ -53,4 +62,5 @@ module.exports = {
   verifyUser,
   verifyAdmin,
   verifyHotelOwner,
+  verifyLoggedIn,
 };
