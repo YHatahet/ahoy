@@ -21,7 +21,7 @@ router
   .get("/all/:page/:limit", getRooms)
   //book room, id is room id
   .post("/book/:id", verifyLoggedIn, bookRoom)
-  //delete room, id is hotel id
-  .delete("/:id/:roomid", verifyHotelOwner, deleteRoom);
+  //delete room, id is room id
+  .delete("/:id", verifyHotelOwner, deleteRoom);
 
 module.exports = router;
