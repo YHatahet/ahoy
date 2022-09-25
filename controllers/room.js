@@ -12,8 +12,6 @@ const createRoom = async (req, res, next) => {
 
     const newRoom = new Room(req.body);
     const savedRoom = await newRoom.save();
-    // find the hotel matching the id, then append the rooms array with the new room id
-    await Hotel.findByIdAndUpdate(hotelId, { $push: { rooms: savedRoom.id } });
     res.status(200).json(savedRoom);
   } catch (err) {
     next(err);
@@ -59,10 +57,7 @@ const updateRoom = async (req, res, next) => {
 
 const deleteRoom = async (req, res, next) => {
   try {
-    const { id: hotelid, roomid } = req.params;
-    // find the hotel matching the id, then remove the room id from the rooms array
-    await Hotel.findByIdAndUpdate(hotelid, { $pull: { rooms: roomid } });
-    const deletedRoom = await Room.findByIdAndDelete(roomid);
+    const deletedRoom = await Room.findByIdAndDelete(req.params.id);
     res
       .status(200)
       .json(
@@ -119,8 +114,6 @@ const bookRoom = async (req, res, next) => {
       }
 
       // if no time conflicts found
-      // await Room.findByIdAndUpdate(hotelId, { $push: { rooms: savedRoom.id } });
-
       room.occupiedDates.push([startDate, endDate]);
       roomToBook.save();
       return res.status(200).json(roomToBook);
