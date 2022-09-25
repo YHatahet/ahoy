@@ -4,7 +4,7 @@ const { createError } = require("../utils/error");
 
 const createRoom = async (req, res, next) => {
   try {
-    const hotelId = req.params.hotelid;
+    const hotelId = req.params.id;
     req.body._hotel = hotelId;
     const newRoom = new Room(req.body);
     const savedRoom = await newRoom.save();
@@ -43,7 +43,7 @@ const getRooms = async (req, res, next) => {
 const updateRoom = async (req, res, next) => {
   try {
     const updatedRoom = await Room.findByIdAndUpdate(
-      req.params.id,
+      req.params.roomid,
       { $set: req.body },
       { new: true } // return document after update
     );
@@ -55,7 +55,7 @@ const updateRoom = async (req, res, next) => {
 
 const deleteRoom = async (req, res, next) => {
   try {
-    const { hotelid, roomid } = req.params;
+    const { id: hotelid, roomid } = req.params;
     // find the hotel matching the id, then remove the room id from the rooms array
     await Hotel.findByIdAndUpdate(hotelid, { $pull: { rooms: roomid } });
     const deletedRoom = await Room.findByIdAndDelete(roomid);
@@ -71,7 +71,7 @@ const deleteRoom = async (req, res, next) => {
 
 const bookRoom = async (req, res, next) => {
   try {
-    const roomToBook = await Room.findById(req.params.roomid);
+    const roomToBook = await Room.findById(req.params.id);
 
     const { roomNumber, startDate, endDate, numOfTenants } = req.body;
 
