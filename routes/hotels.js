@@ -1,5 +1,5 @@
 const express = require("express");
-const { verifyAdmin, verifyHotelOwner } = require("../utils/verification");
+const { verifyUser, verifyHotelOwner } = require("../utils/verification");
 const router = express.Router();
 const {
   createHotel,
@@ -8,24 +8,21 @@ const {
   updateHotel,
   deleteHotel,
   getTopRatedHotels,
-  addRating,
 } = require("../controllers/hotel");
 
 router
   //create hotel
-  .post("/create", verifyAdmin, createHotel)
+  .post("/create", verifyUser, createHotel)
   //list all hotels, paginated
   .get("/all/:page/:limit", getHotels)
-  //read/lookup hotel
+  //read/lookup hotel, id is hotel id
   .get("/:id", getHotel)
   //get top rated hotels
   .get("/topRated/:amount", getTopRatedHotels)
-  //update hotel
+  //update hotel, id is hotel id
   .put("/:id", verifyHotelOwner, updateHotel)
-  //delete hotel
-  .delete("/:id", verifyHotelOwner, deleteHotel)
-  //add review to hotel
-  .post("/rate/:id", addRating);
+  //delete hotel, id is hotel id
+  .delete("/:id", verifyHotelOwner, deleteHotel);
 
 
 
