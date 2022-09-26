@@ -90,7 +90,7 @@
 * Body: None
 
 ### PUT /hotels/:id
-* Description: Updates the hotel details of the selected hotel ID
+* Description: Updates the hotel details of the selected hotel ID.
 * Requirement: To be owner of that hotel or Admin
 * Parameters: 
     ```
@@ -108,7 +108,7 @@
     ```
 
 ### DELETE /hotels/:id
-* Description: Deletes the hotel entry of the selected hotel ID
+* Description: Deletes the hotel entry of the selected hotel ID.
 * Requirement: To be owner of that hotel or Admin
 * Parameters: 
     ```
@@ -121,31 +121,206 @@
 ## <u>Reviews:</u>
 
 ### POST /reviews/:id
-### GET /reviews/all/:page/:limit
-### GET /reviews/:id
-### GET /reviews/hotel/:id
-### PUT /reviews/:id
-### DELETE /reviews/:id
+* Description: Leaves a rating and review to the selected hotel ID.
+* Requirement: To be logged in
+* Parameters: 
+    ```
+    id : Object Id
+    ```
+* Body:
+    ```
+    {
+       rating: Number <0 to 5>
+       review: String
+    }
+    ```
 
+### GET /reviews/all/:page/:limit
+* Description: Lists all reviews, paginated. Goes to selected page with the given number of results in that page.
+* Requirement: None
+* Parameters: 
+    ````
+    page: Number
+    limit: Number
+    ```
+* Body: None
+
+### GET /reviews/:id
+* Description: Lists review with the selected id and its details, if exists.
+* Requirement: None
+* Parameters: 
+    ```
+    id: Object Id
+    ```
+* Body: None
+### GET /reviews/hotel/:id
+* Description: Lists reviews for the hotel with the selected id, if exists.
+* Requirement: None
+* Parameters: 
+    ```
+    id: Object Id
+    ```
+* Body: None
+### PUT /reviews/:id
+* Description: Updates the review details of the selected review ID.
+* Requirement: To be owner of that review or Admin
+* Parameters: 
+    ```
+    id : Object Id
+    ```
+* Body:
+    ```
+    {
+        rating: Number
+        review: String
+    }
+    ```
+### DELETE /reviews/:id
+* Description: Deletes the review entry of the selected review ID.
+* Requirement: To be owner of that review or Admin
+* Parameters: 
+    ```
+    id : Object Id
+    ```
+* Body: None
 <br>
 
 ## <u>Rooms:</u>
 
 ### POST /rooms/create/:id
-### POST /rooms/book/:id
+* Description: Creates a room entry inside the hotel with the selected id.
+* Requirement: To be owner of the hotel or Admin
+* Parameters:  
+    ```
+    id: Object Id
+    ```
+* Body: 
+    ```
+    {
+        title: String, Required, Unique
+        description: String, Required
+        maxTenants: Number, Required
+        pricePerNight: Number, Required
+        rooms: [
+            {
+                number: Number, required
+            },
+        ]
+    }
+    ```
+
 ### GET /rooms/all/:page/:limit
+* Description: Lists all rooms, paginated. Goes to selected page with the given number of results in that page.
+* Requirement: None
+* Parameters: 
+    ```
+    page: Number
+    limit: Number
+    ```
+* Body: None
 ### GET /rooms/:id
+* Description: Lists room with the selected id and its details, if exists.
+* Requirement: None
+* Parameters: 
+    ```
+    id: Object Id
+    ```
+* Body: None
 ### GET /rooms/hotel/:id
+* Description: Lists rooms inside the selected hotel ID, if they exist.
+* Requirement: None
+* Parameters: 
+    ```
+    id: Object Id
+    ```
+* Body: None
 ### PUT /rooms/:id
+* Description: Updates room with the selected room ID, if it exists.
+* Requirement: To be owner of the hotel where the room is or Admin
+* Parameters: 
+    ```
+    id: Object Id
+    ```
+* Body:
+    ```
+    {
+        title: String
+        description: String
+        maxTenants: Number
+        pricePerNight: Number
+    }
+    ```
+### POST /rooms/book/:id
+* Description: Book a room with the selected room id
+* Requirement: To be logged in
+* Parameters: 
+    ```
+    id: Object Id
+    ```
+* Body:
+    ```
+    { 
+        roomNumber: Number
+        startDate: Stringified Date - "YYYY-MM-DD"
+        endDate: Stringified Date - "YYYY-MM-DD"
+        numOfTenants: Number
+    }
+    ```
 ### DELETE /rooms/:id
+* Description: Deletes the room entry of the selected room ID.
+* Requirement: To be owner of that hotel or Admin
+* Parameters: 
+    ```
+    id : Object Id
+    ```
+* Body: None
+
 <br>
 
 ## <u>Users:</u>
 
 ### GET /users/all/:page/:limit
+* Description: Lists all user and their details, paginated. Goes to selected page with the given number of results in that page.
+* Requirement: To be an Admin
+* Parameters: 
+    ```
+    page: Number
+    limit: Number
+    ```
+* Body: None
 ### GET /users/:id
+* Description: Lists user with the selected id and its details, if exists.
+* Requirement: To be owner of that account or Admin
+* Parameters: 
+    ```
+    id: Object Id
+    ```
+* Body: None
 ### PUT /users/:id
+* Description: Updates the user's details of the selected user ID.
+* Requirement: To be owner of that user account or Admin
+* Parameters: 
+    ```
+    id : Object Id
+    ```
+* Body:
+    ```
+    {
+        username: String, Unique
+        email: String, Unique
+        password: String
+    }
+    ```
+
+    
 ### DELETE /users/:id
+* Description: Deletes the account of the selected user ID.
+* Requirement: To be owner of that user acount or Admin
+* Parameters: 
+    ```
+    id : Object Id
+    ```
+* Body: None
 
 <br>
 <br>
