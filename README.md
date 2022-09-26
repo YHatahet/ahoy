@@ -14,10 +14,140 @@
 <br>
 <br>
 
-<br>
+## **APIs**
+
 <br>
 
-## Testing APIs
+## <u>Auth:</u>
+
+### POST /auth/register
+* Description: Create a user.
+* Requirement: None
+* Parameters: None
+* Body: 
+    ```
+    {
+        username: String, Required, Unique
+        password: String, Required
+        email: String, Required, Unique
+    }
+    ```
+### POST /auth/login
+* Description: Logs into an account, and returns a cookie with account info on successful login.
+* Requirement: None
+* Parameters: None
+* Body: 
+    ```
+    {
+        username: String, Required
+        password: String, Required
+    }
+    ```
+## <u>Hotels:</u>
+
+### POST /hotels/create
+* Description: Creates a hotel entry, owned by the logged in account.
+* Requirement: To be logged in
+* Parameters: None
+* Body: 
+    ```
+    {
+        name: String, Required, Unique
+        description: String, Required
+        address: String, Required
+        city: String, Required
+        distanceFromCenter: Number, Required
+        featured: Boolean
+    }
+    ```
+
+### GET /hotels/all/:page/:limit
+* Description: Lists all hotels, paginated. Goes to selected page with the given number of results in that page.
+* Requirement: None
+* Parameters: 
+    ```
+    page: Number
+    limit: Number
+    ```
+* Body: None
+
+### GET /hotels/:id
+* Description: Lists hotel with the selected id and its details, if exists.
+* Requirement: None
+* Parameters: 
+    ```
+    id: Object Id
+    ```
+* Body: None
+
+### GET /hotels/topRated/:amount
+* Description: Lists the top rated hotels in descending order, limited by the amount.
+* Requirement: None
+* Parameters: 
+    ```
+    amount: Number
+    ```
+* Body: None
+
+### PUT /hotels/:id
+* Description: Updates the hotel details of the selected hotel ID
+* Requirement: To be owner of that hotel or Admin
+* Parameters: 
+    ```
+    id : Object Id
+    ```
+* Body:
+    ```
+    {
+        name: String,
+        description: String
+        address: String
+        city: String
+        distanceFromCenter: Number
+    }
+    ```
+
+### DELETE /hotels/:id
+* Description: Deletes the hotel entry of the selected hotel ID
+* Requirement: To be owner of that hotel or Admin
+* Parameters: 
+    ```
+    id : Object Id
+    ```
+* Body: None
+
+<br>
+
+## <u>Reviews:</u>
+
+### POST /reviews/:id
+### GET /reviews/all/:page/:limit
+### GET /reviews/:id
+### GET /reviews/hotel/:id
+### PUT /reviews/:id
+### DELETE /reviews/:id
+
+<br>
+
+## <u>Rooms:</u>
+
+### POST /rooms/create/:id
+### POST /rooms/book/:id
+### GET /rooms/all/:page/:limit
+### GET /rooms/:id
+### GET /rooms/hotel/:id
+### PUT /rooms/:id
+### DELETE /rooms/:id
+<br>
+
+## <u>Users:</u>
+
+### GET /users/all/:page/:limit
+### GET /users/:id
+### PUT /users/:id
+### DELETE /users/:id
+
+<br>
 <br>
 
 ## **Testing APIs**
