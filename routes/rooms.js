@@ -18,7 +18,7 @@ router
   .get("/:id", getRoom)
   //read/lookup room
   .get("/all/:page/:limit", getRooms)
-  //read/lookup room, id is hotel id
+  //read/lookup room for a hotel, id is hotel id
   .get("/hotel/:id", getRoomsInHotel)
   //update room, id is room id
   .put("/:id", verifyHotelOwner, updateRoom)
